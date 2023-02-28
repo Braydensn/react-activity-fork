@@ -54,6 +54,17 @@ function PokemonList () {
         newPokemon.name = event.target.value;
     }
 
+    let removeName: string = "";
+
+    function setRemoveNameP(event: React.ChangeEvent<HTMLInputElement>){
+        removeName = event.target.value;
+    }
+
+    function removePokemon(event: React.FormEvent<HTMLFormElement>){
+        event.preventDefault();
+        setListPoke(listOfPokemon.filter(poke => poke.name !== removeName));
+    }
+
     return (
     <div>
         <h3>Add Pokemon via PokeAPI</h3>
@@ -63,11 +74,19 @@ function PokemonList () {
             <br/>
             <input type="submit"></input>
         </form>
+
+        <h3>Remove</h3>
+        <form className="grid" onSubmit={removePokemon}>
+            <label>Name</label>
+            <input type="text" onChange={setRemoveNameP}></input>
+            <br/>
+            <input type="submit" value="Remove"></input>
+        </form>
         <h2>Pokemon List</h2>
         <div className="grid-pokemon">
             {
                 listOfPokemon.map(poke => {
-                    return <PokemonBox key={poke.name} {...poke} />
+                    return (<PokemonBox key={poke.name} {...poke} />);
                 })
             }
         </div>
